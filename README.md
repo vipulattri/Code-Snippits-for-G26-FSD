@@ -1,1 +1,1 @@
-# Admin-repo-for-G26-FSD
+# Code-Snippits-for-G26-FSD
