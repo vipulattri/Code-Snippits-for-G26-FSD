@@ -65,15 +65,3 @@ jobs:
           else:
               pr.create_issue_comment('✅ No significant code similarity detected')
           EOF
-
-This solution will:
-
-1. Monitor pull requests that modify files in the `Assignments/Submissions` directory
-2. Compare the submitted code with existing submissions
-3. Calculate similarity using the Levenshtein distance algorithm
-4. Comment on the PR with detailed results if similarity > 80% is found
-5. Fail the check if potential plagiarism is detected
-
-To use this:
-
-1. Create the directory structure: 
