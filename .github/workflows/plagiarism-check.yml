@@ -31,14 +31,19 @@ jobs:
           python - <<EOF
           import os
           import sys
+          import json
           from github import Github
           sys.path.append(os.getcwd())
           from Assignments.utils.plagiarism_checker import check_plagiarism
 
+          # Get PR number from GitHub event
+          with open(os.environ['GITHUB_EVENT_PATH']) as f:
+              event = json.load(f)
+          pr_number = event['pull_request']['number']
+
           # Initialize GitHub client
           g = Github(os.environ['GITHUB_TOKEN'])
           repo = g.get_repo(os.environ['GITHUB_REPOSITORY'])
-          pr_number = int(os.environ['GITHUB_EVENT_NUMBER'])
           pr = repo.get_pull(pr_number)
 
           # Get changed files
