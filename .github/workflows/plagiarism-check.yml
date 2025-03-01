@@ -5,6 +5,12 @@ on:
     paths:
       - 'Assignments/Submissions/**'
 
+# Add permissions block
+permissions:
+  pull-requests: write
+  contents: read
+  issues: write
+
 jobs:
   check-plagiarism:
     runs-on: ubuntu-latest
