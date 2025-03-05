@@ -21,11 +21,12 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
         with:
+          # For PRs, we need to check out more carefully
+          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
-          # Don't specify a token for PR events, as it can cause ref issues
-          # Instead, we'll use the PAT only for API operations
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -39,7 +40,7 @@ jobs:
 
       - name: Run plagiarism check
         env:
-          GH_TOKEN: ${{ secrets.PAT_TOKEN }}  # Use PAT token for API access
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use built-in token
         run: |
           python - <<EOF
           import os
@@ -52,9 +53,15 @@ jobs:
           # Get PR number from GitHub event
           with open(os.environ['GITHUB_EVENT_PATH']) as f:
               event = json.load(f)
-          pr_number = event['pull_request']['number']
+          
+          # Handle both workflow_dispatch and pull_request events
+          if 'pull_request' in event:
+              pr_number = event['pull_request']['number']
+          else:
+              # For manual trigger
+              pr_number = int(os.environ.get('INPUT_PR_NUMBER', 0))
 
-          # Initialize GitHub client with PAT
+          # Initialize GitHub client
           g = Github(os.environ['GH_TOKEN'])
           repo = g.get_repo(os.environ['GITHUB_REPOSITORY'])
           pr = repo.get_pull(pr_number)
