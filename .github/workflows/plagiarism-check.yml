@@ -24,9 +24,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          # For PRs, we need to check out more carefully
-          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
+          # For PRs from forks, we need to checkout the PR
+          ref: ${{ github.event_name == 'pull_request' && format('refs/pull/{0}/merge', github.event.pull_request.number) || github.ref }}
 
       - name: Set up Python
         uses: actions/setup-python@v4
