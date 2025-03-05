@@ -12,16 +12,21 @@ on:
   pull_request:
     types: [opened, synchronize]
 
+# Add explicit permissions
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   prettier:
     runs-on: ubuntu-latest
+    # Skip this job for PRs from forks since we can't push directly to them
+    if: github.event.pull_request.head.repo.full_name == github.repository || github.event_name != 'pull_request'
     steps:
       - name: Checkout PR
         uses: actions/checkout@v3
         with:
-          # Special handling for forked PRs
-          ref: ${{ github.event.pull_request.head.sha }}
-          # Enable this token to push to PR from fork
+          ref: ${{ github.head_ref || github.ref_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
@@ -35,21 +40,38 @@ jobs:
       - name: Format Code
         run: prettier --write "**/*.{js,jsx,ts,tsx,json,css,md,html}"
 
-      # Special commit action for PRs from forks
-      - name: Get PR branch info
-        id: pr
-        run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            echo "branch=${{ github.head_ref }}" >> $GITHUB_OUTPUT
-            echo "repo=${{ github.event.pull_request.head.repo.full_name }}" >> $GITHUB_OUTPUT
-          else
-            echo "branch=main" >> $GITHUB_OUTPUT
-            echo "repo=${{ github.repository }}" >> $GITHUB_OUTPUT
-          fi
-
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Format code with prettier"
-          branch: ${{ steps.pr.outputs.branch }}
-          repository: ${{ github.workspace }} 
+          branch: ${{ github.head_ref || github.ref_name }}
+
+  comment-on-fork:
+    runs-on: ubuntu-latest
+    # Only run this job for PRs from forks
+    if: github.event.pull_request.head.repo.full_name != github.repository && github.event_name == 'pull_request'
+    steps:
+      - name: Comment on PR
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `⚠️ **Prettier Formatting Notice**
+              
+              This PR is from a forked repository, so GitHub Actions cannot automatically format and push changes.
+              
+              For consistent code style, please run Prettier locally before pushing changes:
+              
+              \`\`\`bash
+              # Install prettier
+              npm install --global prettier
+              
+              # Format your code
+              prettier --write "**/*.{js,jsx,ts,tsx,json,css,md,html}"
+              \`\`\`
+              
+              Thank you!`
+            }); 
