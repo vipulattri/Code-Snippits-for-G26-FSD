@@ -26,8 +26,9 @@ jobs:
       - name: Checkout PR
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.head_ref || github.ref_name }}
+          ref: ${{ github.event.pull_request.head.sha || github.ref_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 1
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
