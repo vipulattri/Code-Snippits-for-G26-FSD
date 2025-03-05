@@ -1,14 +1,6 @@
 name: Format Code
 
 on:
-  # Manual trigger option
-  workflow_dispatch:
-    inputs:
-      pr_number:
-        description: 'PR number to format'
-        required: false
-        type: string
-  # Automatic trigger on PRs
   pull_request:
     types: [opened, synchronize]
 
@@ -20,59 +12,21 @@ permissions:
 jobs:
   prettier:
     runs-on: ubuntu-latest
-    # Skip this job for PRs from forks since we can't push directly to them
-    if: github.event.pull_request.head.repo.full_name == github.repository || github.event_name != 'pull_request'
     steps:
-      - name: Checkout PR
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.ref_name }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 1
+          ref: ${{ github.head_ref }}
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '16'
 
-      - name: Install Prettier
-        run: npm install --global prettier
+      - name: Install and run Prettier
+        run: |
+          npm install --global prettier
+          prettier --write "**/*.{js,jsx,ts,tsx,json,css,md,html}"
 
-      - name: Format Code
-        run: prettier --write "**/*.{js,jsx,ts,tsx,json,css,md,html}"
-
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
+      - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Format code with prettier"
-          branch: ${{ github.head_ref || github.ref_name }}
-
-  comment-on-fork:
-    runs-on: ubuntu-latest
-    # Only run this job for PRs from forks
-    if: github.event.pull_request.head.repo.full_name != github.repository && github.event_name == 'pull_request'
-    steps:
-      - name: Comment on PR
-        uses: actions/github-script@v6
-        with:
-          script: |
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: `⚠️ **Prettier Formatting Notice**
-              
-              This PR is from a forked repository, so GitHub Actions cannot automatically format and push changes.
-              
-              For consistent code style, please run Prettier locally before pushing changes:
-              
-              \`\`\`bash
-              # Install prettier
-              npm install --global prettier
-              
-              # Format your code
-              prettier --write "**/*.{js,jsx,ts,tsx,json,css,md,html}"
-              \`\`\`
-              
-              Thank you!`
-            }); 
+          branch: ${{ github.head_ref }} 
