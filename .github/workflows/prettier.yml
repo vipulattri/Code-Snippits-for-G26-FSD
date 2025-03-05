@@ -19,7 +19,10 @@ jobs:
       - name: Checkout PR
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.head_ref || 'main' }}
+          # Special handling for forked PRs
+          ref: ${{ github.event.pull_request.head.sha }}
+          # Enable this token to push to PR from fork
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -32,8 +35,21 @@ jobs:
       - name: Format Code
         run: prettier --write "**/*.{js,jsx,ts,tsx,json,css,md,html}"
 
+      # Special commit action for PRs from forks
+      - name: Get PR branch info
+        id: pr
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "branch=${{ github.head_ref }}" >> $GITHUB_OUTPUT
+            echo "repo=${{ github.event.pull_request.head.repo.full_name }}" >> $GITHUB_OUTPUT
+          else
+            echo "branch=main" >> $GITHUB_OUTPUT
+            echo "repo=${{ github.repository }}" >> $GITHUB_OUTPUT
+          fi
+
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Format code with prettier"
-          branch: ${{ github.head_ref }} 
+          branch: ${{ steps.pr.outputs.branch }}
+          repository: ${{ github.workspace }} 

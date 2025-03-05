@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       pr_number:
-        description: 'PR number to check (leave empty for current PR)'
+        description: 'PR number to check'
         required: false
         type: string
   # Automatic trigger on PRs
@@ -23,9 +23,13 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      # This special checkout configuration works with forked PRs
+      - name: Checkout PR
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          # This is the key fix for forked PRs
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Comment on PR
         uses: actions/github-script@v6
