@@ -1,11 +1,14 @@
-name: Plagiarism Check
+name: Check Plagiarism
 
 on:
+  # Manual trigger option
   workflow_dispatch:
     inputs:
       pr_number:
-        description: 'PR number to check'
-        required: true
+        description: 'PR number to check (leave empty for current PR)'
+        required: false
+        type: string
+  # Automatic trigger on PRs
   pull_request:
     paths:
       - 'Assignments/Submissions/**'
@@ -17,75 +20,140 @@ permissions:
   issues: write
 
 jobs:
-  check-plagiarism:
+  check:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          # For PRs from forks, we need to checkout the PR
-          ref: ${{ github.event_name == 'pull_request' && format('refs/pull/{0}/merge', github.event.pull_request.number) || github.ref }}
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Comment on PR
+        uses: actions/github-script@v6
         with:
-          python-version: '3.x'
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Run plagiarism check
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use built-in token
-        run: |
-          python - <<EOF
-          import os
-          import sys
-          import json
-          from github import Github
-          sys.path.append(os.getcwd())
-          from Assignments.utils.plagiarism_checker import check_plagiarism
-
-          # Get PR number from GitHub event
-          with open(os.environ['GITHUB_EVENT_PATH']) as f:
-              event = json.load(f)
-          
-          # Handle both workflow_dispatch and pull_request events
-          if 'pull_request' in event:
-              pr_number = event['pull_request']['number']
-          else:
-              # For manual trigger
-              pr_number = int(os.environ.get('INPUT_PR_NUMBER', 0))
-
-          # Initialize GitHub client
-          g = Github(os.environ['GH_TOKEN'])
-          repo = g.get_repo(os.environ['GITHUB_REPOSITORY'])
-          pr = repo.get_pull(pr_number)
-
-          # Get changed files
-          changed_files = [f.filename for f in pr.get_files() if f.filename.startswith('Assignments/Submissions/')]
-          
-          plagiarism_found = False
-          comment = '## Plagiarism Check Results\n\n'
-
-          for file in changed_files:
-              results = check_plagiarism(file, 'Assignments/Submissions')
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            // Simple similarity check
+            function calculateSimilarity(str1, str2) {
+              str1 = str1.replace(/\s+/g, '').toLowerCase();
+              str2 = str2.replace(/\s+/g, '').toLowerCase();
               
-              if results:
-                  plagiarism_found = True
-                  comment += f'### {file}\n'
-                  comment += 'High similarity found with:\n'
-                  for result in results:
-                      comment += f"- {result['file']}: {result['similarity']}% similarity\n"
-                  comment += '\n'
-
-          # Create comment on PR
-          if plagiarism_found:
-              pr.create_issue_comment(comment)
-          else:
-              pr.create_issue_comment('✅ No significant code similarity detected')
-          EOF
+              if (str1 === str2) return 100;
+              if (str1.length === 0 || str2.length === 0) return 0;
+              
+              let matches = 0;
+              const len = Math.min(str1.length, str2.length);
+              
+              for (let i = 0; i < len; i++) {
+                if (str1[i] === str2[i]) matches++;
+              }
+              
+              return Math.round((matches / len) * 100);
+            }
+            
+            // Check submission against others
+            function checkSubmission(filePath, submissionsDir) {
+              const results = [];
+              const content = fs.readFileSync(filePath, 'utf8');
+              
+              // Get all files in submissions directory recursively
+              function getFiles(dir) {
+                let results = [];
+                const list = fs.readdirSync(dir);
+                
+                list.forEach(file => {
+                  const filePath = path.join(dir, file);
+                  const stat = fs.statSync(filePath);
+                  
+                  if (stat && stat.isDirectory()) {
+                    results = results.concat(getFiles(filePath));
+                  } else {
+                    results.push(filePath);
+                  }
+                });
+                
+                return results;
+              }
+              
+              const allFiles = getFiles(submissionsDir);
+              
+              for (const otherFile of allFiles) {
+                // Skip if it's the same file
+                if (otherFile === filePath) continue;
+                
+                // Skip if it's not the right file type
+                if (!['.js', '.py', '.html', '.css'].includes(path.extname(otherFile))) continue;
+                
+                try {
+                  const otherContent = fs.readFileSync(otherFile, 'utf8');
+                  const similarity = calculateSimilarity(content, otherContent);
+                  
+                  if (similarity > 90) {
+                    results.push({
+                      file: path.relative(submissionsDir, otherFile),
+                      similarity
+                    });
+                  }
+                } catch (error) {
+                  console.error(`Error reading file ${otherFile}: ${error.message}`);
+                }
+              }
+              
+              return results;
+            }
+            
+            // Main script
+            let prNumber = context.issue.number;
+            
+            // Handle manual trigger with specified PR number
+            if (context.payload.inputs && context.payload.inputs.pr_number) {
+              prNumber = parseInt(context.payload.inputs.pr_number);
+            }
+            
+            // Get PR files
+            const changedFiles = await github.paginate(
+              github.rest.pulls.listFiles,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber
+              }
+            );
+            
+            const submissionFiles = changedFiles
+              .filter(file => file.filename.startsWith('Assignments/Submissions/'))
+              .map(file => file.filename);
+            
+            let plagiarismFound = false;
+            let comment = '## Plagiarism Check Results\n\n';
+            
+            for (const file of submissionFiles) {
+              const results = checkSubmission(file, 'Assignments/Submissions');
+              
+              if (results.length > 0) {
+                plagiarismFound = true;
+                comment += `### ${file}\n`;
+                comment += 'High similarity found with:\n';
+                results.forEach(result => {
+                  comment += `- ${result.file}: ${result.similarity}% similarity\n`;
+                });
+                comment += '\n';
+              }
+            }
+            
+            if (plagiarismFound) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: comment
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: '✅ No significant code similarity detected'
+              });
+            }

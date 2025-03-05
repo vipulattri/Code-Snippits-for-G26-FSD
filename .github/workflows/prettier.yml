@@ -1,31 +1,25 @@
-name: Prettier Format
+name: Format Code
 
 on:
+  # Manual trigger option
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to format (leave empty for current PR)'
+        required: false
+        type: string
+  # Automatic trigger on PRs
   pull_request:
-    paths:
-      - '**/*.js'
-      - '**/*.jsx'
-      - '**/*.ts'
-      - '**/*.tsx'
-      - '**/*.css'
-      - '**/*.html'
-      - '**/*.json'
-      - '**/*.md'
-
-permissions:
-  contents: write
-  pull-requests: write
+    types: [opened, synchronize]
 
 jobs:
   prettier:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Checkout PR
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.pr_number != '' ? format('refs/pull/{0}/head', github.event.inputs.pr_number) : github.head_ref }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -35,19 +29,11 @@ jobs:
       - name: Install Prettier
         run: npm install --global prettier
 
-      - name: Run Prettier
-        run: |
-          prettier --write "**/*.{js,jsx,ts,tsx,css,html,json,md}"
-          
-      - name: Check for changes
-        id: git-check
-        run: |
-          git diff --exit-code || echo "changes=true" >> $GITHUB_OUTPUT
+      - name: Format Code
+        run: prettier --write "**/*.{js,jsx,ts,tsx,json,css,md,html}"
 
       - name: Commit changes
-        if: steps.git-check.outputs.changes == 'true'
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git commit -am "style: format code with prettier"
-          git push 
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Format code with prettier"
+          branch: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.pr_number != '' ? format('pull/{0}/head', github.event.inputs.pr_number) : github.head_ref }} 
