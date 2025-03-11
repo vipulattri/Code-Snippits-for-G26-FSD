@@ -30,6 +30,7 @@ function addNewTodo() {
 function deleteTask(button) {
      button.parentElement.remove();
 }
-
-getData().then(display);
-addNewTodo();
+document.getElementById("Fetch").addEventListener("click", () => {
+     getData().then(display).then(addNewTodo);
+ });
+ 
