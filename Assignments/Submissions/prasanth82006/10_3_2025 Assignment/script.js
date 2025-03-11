@@ -3,10 +3,10 @@ async function getData() {
      const data = await response.json();
      return data.todos;
 }
+
 function display(todos) {
      const todoList = document.getElementById("item");
      todoList.innerHTML = "";
-
      todos.forEach((todo) => {
           const listItem = document.createElement("li");
           listItem.id = `${todo.id}-count`;
@@ -17,6 +17,7 @@ function display(todos) {
           todoList.appendChild(listItem);
      });
 }
+
 function addNewTodo() {
      document.getElementById("add").addEventListener("click", () => {
          let inputField = document.getElementById("IE");
@@ -25,13 +26,10 @@ function addNewTodo() {
          inputField.value = "";
      });
 }
+
 function deleteTask(button) {
      button.parentElement.remove();
 }
 
-async function init() {
-     const todos = await getData();
-     display(todos);
-     addNewTodo();
-}
-init();
+getData().then(display);
+addNewTodo();
