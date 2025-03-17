@@ -1,4 +1,4 @@
-#Booking.com clone 
+# Booking.com clone 
  <h3>Here is the image of how the clone looks like </h3>
  <img src="https://i.ibb.co/TszWNJ9/Screenshot-from-2025-03-17-20-09-42.png">
 
