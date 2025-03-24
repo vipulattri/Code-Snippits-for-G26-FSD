@@ -1,3 +1,15 @@
+//START
+  // Create an array called movies, each element is an object with properties: movieName, rating, and year
+   //Create a new array filteredMovies
+   //FOR each movie in movies
+      // IF movie.year > 2015 THEN
+        //   Add movie to filteredMovies
+      // END IF
+  // END FOR
+    //Sort filteredMovies by rating in descending order
+  // Print filteredMovies
+//END
+
 // Movie List
 let movies = [
     { movieName: 'Baahubali: The Beginning', rating: 8.8, year: 2015 },
