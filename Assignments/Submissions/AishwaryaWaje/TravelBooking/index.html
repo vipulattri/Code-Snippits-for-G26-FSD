@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Booking.com</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="UpperContainer">
+        <div id="title"><h1>Booking.com</h1></div>
+
+        <div class="header-right">
+          <span class="currency">
+            INR <img src="https://flagcdn.com/w40/in.png" class="flag" />
+          </span>
+          <i class="fas fa-question-circle"></i>
+          <span>List your property</span>
+          <div class="buttons">
+            <button id="register">Register</button>
+            <button id="sign-in">Sign In</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="LowerContainer">
+        <nav>
+          <a href="#"><i class="fas fa-bed"></i> Stays</a>
+          <a href="#"><i class="fa-solid fa-ticket"></i> Flights</a>
+          <a href="#"><i class="fas fa-plane"></i> Flight + Hotel</a>
+          <a href="#"><i class="fas fa-car"></i> Car Rentals</a>
+          <a href="#"><i class="fas fa-map-marked-alt"></i> Attractions</a>
+          <a href="#"><i class="fas fa-taxi"></i> Airport Taxis</a>
+        </nav>
+      </div>
+    </header>
+    <div class="img-part">
+      <div>
+        <h1>Live the dream in a holiday home</h1>
+
+        <p>Choose from houses, villas, chalets and more</p>
+        <button id="book-btn">Book yours</button>
+
+        <div class="search-bar">
+          <div class="search-box">
+            <i class="fas fa-map-marker-alt"></i>
+            <input type="text" placeholder="Where are you going?" />
+          </div>
+
+          <div class="search-box">
+            <i class="fas fa-calendar-alt"></i>
+            <input type="text" placeholder="Check-in date - Check-out date" />
+          </div>
+
+          <div class="search-box">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="2 adults · 0 children · 1 room" />
+          </div>
+
+          <button class="search-btn">Search</button>
+        </div>
+
+        <label class="checkbox-container">
+          <input type="checkbox" /> I'm looking for flights
+        </label>
+      </div>
+    </div>
+    <br /><br /><br /><br />
+    <div class="offers-section">
+      <h2>Offers</h2>
+      <p class="subtitle">Promotions, deals and special offers for you</p>
+      <div class="offers-container">
+        <div class="offer-card">
+          <div class="offer-text">
+            <h3>Save on stays worldwide</h3>
+            <p>
+              Start your year with a sense of adventure, saving 15% or more with Early 2025 Deals.
+            </p>
+            <button class="btn">Save 15% or more</button>
+          </div>
+          <img src="images/Adventure.jpeg" alt="Travelers on an adventure" />
+        </div>
+        <div class="offer-card">
+          <div class="offer-text">
+            <h3>Quick escape, quality time</h3>
+            <p>Save up to 20% with a Getaway Deal</p>
+            <button class="btn">Save on stays</button>
+          </div>
+          <img src="images/Boat.jpeg" alt="Couple on a boat" />
+        </div>
+      </div>
+    </div>
+    <br /><br /><br /><br />
+    <section>
+      <div>
+        <h2 class="Etitle">Explore India</h2>
+        <p class="Esubtitle">Most popular choices for travellers from India</p>
+        <div class="image-scroller">
+          <button class="nav-button left-button" onclick="scrollCarousel(-1)">
+            <i class="fa-solid fa-backward"></i>
+          </button>
+          <div class="carousel" id="carousel">
+            <div class="destination">
+              <img src="images/Chennai.jpeg" />
+              <h3>Chennai</h3>
+              <p>1,558 properties</p>
+            </div>
+            <div class="destination">
+              <img src="images/Kochi.jpeg" />
+              <h3>kochi</h3>
+              <p>480 properties</p>
+            </div>
+            <div class="destination">
+              <img src="images/Varanasi.jpeg" />
+              <h3>Varanasi</h3>
+              <p>555 properties</p>
+            </div>
+            <div class="destination">
+              <img src="images/Hyderabad.jpeg" />
+              <h3>Hyderabad</h3>
+              <p>172 properties</p>
+            </div>
+            <div class="destination">
+              <img src="images/Dehli.jpeg" />
+              <h3>Dehli</h3>
+              <p>1963 properties</p>
+            </div>
+            <div class="destination">
+              <img src="images/Goa.jpeg" />
+              <h3>Goa</h3>
+              <p>3,695 properties</p>
+            </div>
+            <div class="destination">
+              <img src="images/Shrinagar.jpeg" />
+              <h3>Shrinagar</h3>
+              <p>4,625 properties</p>
+            </div>
+            <div class="destination">
+              <img src="images/Bangalore.jpeg" />
+              <h3>Bangalore</h3>
+              <p>3,762 properties</p>
+            </div>
+          </div>
+          <button class="nav-button right-button" onclick="scrollCarousel(1)">
+            <i class="fa-solid fa-forward"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+    <script>
+      function scrollCarousel(direction) {
+        const carousel = document.getElementById('carousel');
+        const scrollAmount = 200;
+        carousel.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+      }
+    </script>
+    <br /><br /><br /><br />
+    <section>
+      <h3 class="Ttitle">Trending Destinations</h3>
+      <p class="Tsubtitle">Most popular choices for travellers from India</p>
+      <div>
+        <div class="TD-section1">
+          <div class="TD1">
+            <div class="image-container">
+              <img src="images/Dehli.jpeg" alt="New Dehli" />
+              <div class="content"><h3>New Dehli, India</h3></div>
+            </div>
+          </div>
+          <div class="TD1">
+            <div class="image-container">
+              <img src="images/Bangalore.jpeg" alt="Banglore" />
+              <div class="content"><h3>Bangalore, India</h3></div>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div>
+          <div class="TD-section2">
+            <div class="TD2">
+              <div class="image-container">
+                <img src="images/Mumbai.jpeg" alt="Banglore" />
+                <div class="content"><h3>Mumbai, India</h3></div>
+              </div>
+            </div>
+            <div class="TD2">
+              <div class="image-container">
+                <img src="images/Chennai.jpeg" alt="Banglore" />
+                <div class="content"><h3>Chennai, India</h3></div>
+              </div>
+            </div>
+            <div class="TD2">
+              <div class="image-container">
+                <img src="images/Varanasi.jpeg" alt="Banglore" />
+                <div class="content"><h3>Varanasi, India</h3></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <br /><br />
+    <section>
+      <h2 id="ptitle">Quick and easy trip planner</h2>
+      <p id="psubtitle">Pick a vibe and explore the top destinations in India</p>
+      <div class="TP-section">
+        <nav class="TP">
+          <a href="#"><i class="fa-solid fa-city"></i> City</a>
+          <a href="#"><i class="fa-solid fa-umbrella-beach"></i> Beach</a>
+          <a href="#"><i class="fa-solid fa-motorcycle"></i> Outdoors</a>
+          <a href="#"><i class="fa-solid fa-headphones"></i> Relax</a>
+          <a href="#"><i class="fa-solid fa-heart"></i> Romance</a>
+          <a href="#"><i class="fa-solid fa-pizza-slice"></i> Food</a>
+        </nav>
+      </div>
+      <br />
+      <div class="TP-place">
+        <div class="place">
+          <img src="images/Fatehpur.jpeg" />
+          <b>Fatehpur Sikri</b>
+          <p>176 km from New Dehli</p>
+        </div>
+        <div class="place">
+          <img src="images/OldGoa.jpeg" />
+          <b>Old Goa</b>
+          <p>1499 km from New Dehli</p>
+        </div>
+      </div>
+    </section>
+    <br /><br />
+    <section>
+      <div>
+        <h2 id="Btitle">Browse by property type in New Delhi</h2>
+        <div class="image-scroller">
+          <button class="nav-button left-button" onclick="scrollSCarousel(-1)">
+            <i class="fa-solid fa-backward"></i>
+          </button>
+          <div class="Scarousel" id="Scarousel">
+            <div class="stay">
+              <img src="images/Hotels.jpeg" />
+              <h3>Hotels</h3>
+              <p>28 Mar-29 Mar, 2 Adults</p>
+              <p>5 Available</p>
+            </div>
+            <div class="stay">
+              <img src="images/Apartments.jpeg" />
+              <h3>Apartments</h3>
+              <p>28 Mar-29 Mar, 2 Adults</p>
+              <p>36 Available</p>
+            </div>
+            <div class="stay">
+              <img src="images/HolidayHomes.jpeg" />
+              <h3>Holiday Homes</h3>
+              <p>28 Mar-29 Mar, 2 Adults</p>
+              <p>78 Available</p>
+            </div>
+            <div class="stay">
+              <img src="images/Villas.jpeg" />
+              <h3>Villas</h3>
+              <p>28 Mar-29 Mar, 2 Adults</p>
+              <p>9 Available</p>
+            </div>
+            <div class="stay">
+              <img src="images/Homestays.jpeg" />
+              <h3>Homestays</h3>
+              <p>28 Mar-29 Mar, 2 Adults</p>
+              <p>24 Available</p>
+            </div>
+          </div>
+          <button class="nav-button right-button" onclick="scrollSCarousel(1)">
+            <i class="fa-solid fa-forward"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+    <script>
+      function scrollSCarousel(direction) {
+        const Scarousel = document.getElementById('Scarousel');
+        const scrollAmount = 200;
+        Scarousel.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+      }
+    </script>
+    <br /><br />
+  </body>
+</html>
