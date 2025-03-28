@@ -285,5 +285,198 @@
       }
     </script>
     <br /><br />
+    <section>
+      <h2 id="TStitle">Travel more, spend less</h2>
+      <div class="TS-box">
+        <strong>Sign in, save money</strong>
+        <p>Save 10% or more at participating properties - just look for the blue Genius label</p>
+        <button id="sign-in">Sign in</button>
+        <button id="register">Register</button>
+      </div>
+      <br>
+      <div class="TS-container">
+        <div class="circle">
+          <h2 id="TS-heading">Find <span id="text">Homes</span> </h2>
+          <h2>For your next trip</h2>
+          <button id="discover-btn">Discover homes</button>
+
+        </div>
+      </div>
+
+    </section>
+    <script>
+      const textOptions = ["Homes", "Apartments", "Villas", "Holiday Homes", "Aparthotels"];
+      let index = 0;
+      function changeText() {
+        const spanElement = document.getElementById("text");
+        spanElement.textContent = textOptions[index];
+        index = (index + 1) % textOptions.length;
+      }
+      setInterval(changeText, 2000); 
+
+    </script>
+    <br>
+    <section>
+      <h2 id="Ptitle">Popular with travellers from India</h2>
+      <div class="P-section">
+        <nav class="P">
+          <a href="#"> Domestic cities</a>
+          <a href="#"> International cities</a>
+          <a href="#"> Regions</a>
+          <a href="#"> Countries</a>
+          <a href="#"> Places to stay</a>
+        </nav>
+      </div>
+
+      <div class="footer">
+        <div class="footer-column">
+          <ul>
+            <li><a href="#">Srinagar hotels</a></li>
+            <li><a href="#">Bangalore hotels</a></li>
+            <li><a href="#">Ooty hotels</a></li>
+            <li><a href="#">Mumbai hotels</a></li>
+            <li><a href="#">Lonavala hotels</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <ul>
+            <li><a href="#">Hyderabad hotels/a></li>
+            <li><a href="#">Jaipur hotels</a></li>
+            <li><a href="#">Puri hotels</a></li>
+            <li><a href="#">Chennai hotels</a></li>
+            <li><a href="#">puducherry hotels</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <ul>
+            <li><a href="#">Rishikesh hotels</a></li>
+            <li><a href="#">Munnar hotels</a></li>
+            <li><a href="#">Varanasi hotels</a></li>
+            <li><a href="#">Ayodhya hotels</a></li>
+            <li><a href="#">Mysore hotels</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <ul>
+            <li><a href="#">Pune hotels</a></li>
+            <li><a href="#">Vakala hotels</a></li>
+            <li><a href="#">Manali hotels</a></li>
+            <li><a href="#">New Dehli hotels</a></li>
+            <li><a href="#">Gurgaon hotels</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <ul>
+            <li><a href="#">Mahabaleshwar hotels</a></li>
+            <li><a href="#">Shimala hotels</a></li>
+            <li><a href="#">Kodaikanal hotels</a></li>
+            <li><a href="#">Mussoorie hotels</a></li>
+            <li><a href="#">Cochin hotels</a></li>
+            
+          </ul>
+        </div>
+      </div>
+
+      <div class="show-more">
+        <button><a href="#">+ Show more</a></button>
+      </div>
+      <br>
+      <div class="info">
+        <p>
+          <a href="#"> Countries</a>
+          <a href="#"> Regions</a>
+          <a href="#"> Cities</a>
+          <a href="#"> Districts</a>
+          <a href="#"> Airports</a>
+          <a href="#"> Hotels</a>
+          <a href="#"> Places of interest</a>
+          <a href="#"> Holiday homes</a>
+          <a href="#"> Apartments</a>
+          <a href="#"> Resorts</a>
+          <a href="#"> Villas</a>
+          <a href="#"> Hostels</a>
+          <a href="#"> B&Bs</a>
+          <a href="#"> Guest houses</a>
+          <a href="#"> Unique places to stay</a>
+          <a href="#"> All destinations</a>
+          <a href="#"> All flight destinations</a>
+          <a href="#"> All car hire locations</a> 
+          <a href="#"> Guids</a>
+          <a href="#"> Discover</a>
+          <a href="#"> Reviews</a>
+          <a href="#"> Discover monthly stays</a>
+
+        </p>
+
+      </div>
+      
+    </section>
+
+    <footer>
+      <div class="footer">
+        <div class="footer-column">
+          <h3>Support</h3>
+          <ul>
+            <li><a href="#">Coronavirus (COVID-19) FAQs</a></li>
+            <li><a href="#">Manage your trips</a></li>
+            <li><a href="#">Contact Customer Service</a></li>
+            <li><a href="#">Safety resource centre</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Discover</h3>
+          <ul>
+            <li><a href="#">Genius loyalty programme</a></li>
+            <li><a href="#">Seasonal and holiday deals</a></li>
+            <li><a href="#">Travel articles</a></li>
+            <li><a href="#">Booking.com for Business</a></li>
+            <li><a href="#">Traveller Review Awards</a></li>
+            <li><a href="#">Car hire</a></li>
+            <li><a href="#">Flight finder</a></li>
+            <li><a href="#">Restaurant reservations</a></li>
+            <li><a href="#">Booking.com for Travel Agents</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Terms and settings</h3>
+          <ul>
+            <li><a href="#">Privacy & cookies</a></li>
+            <li><a href="#">Terms and conditions</a></li>
+            <li><a href="#">Grievance officer</a></li>
+            <li><a href="#">Modern Slavery Statement</a></li>
+            <li><a href="#">Human Rights Statement</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Partners</h3>
+          <ul>
+            <li><a href="#">Extranet login</a></li>
+            <li><a href="#">Partner help</a></li>
+            <li><a href="#">List your property</a></li>
+            <li><a href="#">Become an affiliate</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>About</h3>
+          <ul>
+            <li><a href="#">About Booking.com</a></li>
+            <li><a href="#">How we work</a></li>
+            <li><a href="#">Sustainability</a></li>
+            <li><a href="#">Press centre</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Investor relations</a></li>
+            <li><a href="#">Corporate contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr />
+      <div class="footer-bottom">
+        <p>
+          Booking.com is part of Booking Holdings Inc., the world leader in online travel and
+          related services.
+        </p>
+        <p>Copyright & copy; 1996-2025 Booking.com™. All rights reserved.</p>
+      </div>
+    </footer>
   </body>
 </html>
