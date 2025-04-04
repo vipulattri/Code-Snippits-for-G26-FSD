@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fashion Boutique - Flipkart Style</title>
     <link rel="stylesheet" href="style.css">
-    
 </head>
 <body>
     <header>
@@ -28,9 +27,7 @@
             <h2>My Cart</h2>
             <button class="close-cart" id="close-cart">×</button>
         </div>
-        <div class="cart-items" id="cart-items">
-            <!-- Cart items will be added here dynamically -->
-        </div>
+        <div class="cart-items" id="cart-items"></div>
         <div class="cart-total">
             Total: ₹<span id="cart-total">0.00</span>
         </div>
@@ -39,76 +36,17 @@
     
     <div class="container">
         <h2 style="color: #212121; font-size: 20px; margin-bottom: 10px;">Trending Styles</h2>
-        <div class="products" id="products">
-            <!-- Products will be added here dynamically -->
-        </div>
+        <div class="products" id="products"></div>
     </div>
 
     <script>
-        // Sample product data with Flipkart-style pricing
         const products = [
-            {
-                id: 1,
-                title: "Solid Men Polo Neck Black T-Shirt",
-                price: 299,
-                originalPrice: 599,
-                image: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSq9oNBujjzEkxTkmQ34BAtWcxotLuUiWBIzwe4-L2EBZXxHNhvBe8Qt8tlVvDcGu8TtnR-7Pcbu19Mw9pqTf_uC7EBiwDydjd36eyfWFNW"
-            },
-            {
-                id: 2,
-                title: "Men Slim Fit Jeans",
-                price: 799,
-                originalPrice: 1299,
-                image: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQLprwJu6qHtRJ2_gVRhpeIb6qKk50690w_Z_P9Pad3Vq485Acq-tcZnkIE0SZFmT3z6LpDqCZ_XDF6w7RAa9flMkZPwgRva-3hGlniI9zkP6dzfMFe9tFIvg"
-            },
-            {
-                id: 3,
-                title: "Women Fit and Flare Red Dress",
-                price: 899,
-                originalPrice: 1599,
-                image: "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQ_uK0R7aC4VsIkwv3G2Dn6qjk88FqfCSlJvtGLE4yLGINUylr0eIOUq-pTkfSo9kzFXmbJUMesKrWexxSF2zmVf9c3oqlpxgtSw-9gbl2wwp8iJY-0EY7jgg"
-            },
-            {
-                id: 4,
-                title: "Unisex Round Neck White T-Shirt",
-                price: 249,
-                originalPrice: 499,
-                image: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcR42bnuQMK1AVP9zv4gw55foBS8aPt6VMCpAiQ8FiBluyjGjYagMyP2t9vpfkP96L9y7zaQ1hALA_Xrbu1VVzA-U3gRz5pclqqsNl29LReT"
-            },
-            {
-                id: 5,
-                title: "Women's Straight Kurta with Trousers",
-                price: 999,
-                originalPrice: 1999,
-                image: "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcRtmHAl6WM2FqnH8bdgI1lNIJ0TwqCZuOHrtJ7qCVCjcLir4DdcRliL249R0MGWTHYSZ6gmmBUt4xZ9kkjYuFzNaXh_7MnhjlGB9stpnRjn0pcgpHm2hyGe&usqp=CAE"
-            },
-            {
-                id: 6,
-                title: "Men's Checkered Casual Shirt",
-                price: 599,
-                originalPrice: 999,
-                image: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQ0PLVP4DAzIasjglZ0lPd9bLPKqhCjPCmIJz0_7mozUbzQpeMYgZvTP8TZQWm03oRCsR2oEi5LayZ6ih2rOLNn-Q2oxlg-FHvt3ADl-W1WdvJIkV7FTw5bbA&usqp=CAE"
-            },
-            {
-                id: 7,
-                title: "Women's Denim Jacket",
-                price: 1199,
-                originalPrice: 1999,
-                image: "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcRGSqH7XbGEYyJVxJB1izMG15jLOpjOfeECGQRP9QuH44eZyCKupS7JSRI6PNsfN69Z0VCQwpvUvc8Heo_idtMoxBS_56WrL0GHpX80uYyIsdiG5K1o9x8ksg&usqp=CAE"
-            },
-            {
-                id: 8,
-                title: "Men's Sports Shoes",
-                price: 1299,
-                originalPrice: 2499,
-                image: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSbhuAS9fA6bYsgqKOpWyHrR1vtlVrlhXZNOE4r2RkFbBTnN-YzWVAdd-4SF_qDmn2QtOcUM0CV9r24u18oVkO8XPHv2syThy39yqukw1Kamt6Rl9YYjCae&usqp=CAE"
-            }
+            { id: 1, title: "Solid Men Polo Neck Black T-Shirt", price: 299, originalPrice: 599, image: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSq9oNBujjzEkxTkmQ34BAtWcxotLuUiWBIzwe4-L2EBZXxHNhvBe8Qt8tlVvDcGu8TtnR-7Pcbu19Mw9pqTf_uC7EBiwDydjd36eyfWFNW" },
+            { id: 2, title: "Men Slim Fit Jeans", price: 799, originalPrice: 1299, image: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQLprwJu6qHtRJ2_gVRhpeIb6qKk50690w_Z_P9Pad3Vq485Acq-tcZnkIE0SZFmT3z6LpDqCZ_XDF6w7RAa9flMkZPwgRva-3hGlniI9zkP6dzfMFe9tFIvg" }
         ];
         
-        // Shopping cart data
         let cart = [];
         
-        // DOM elements
         const productsContainer = document.getElementById('products');
         const cartIcon = document.getElementById('cart-icon');
         const cartModal = document.getElementById('cart-modal');
@@ -117,23 +55,18 @@
         const cartCount = document.getElementById('cart-count');
         const cartTotal = document.getElementById('cart-total');
         
-        // Initialize the app
         function init() {
             renderProducts();
             setupEventListeners();
             updateCart();
         }
         
-        // Render all products
         function renderProducts() {
             productsContainer.innerHTML = '';
-            
             products.forEach(product => {
                 const discount = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
-                
                 const productElement = document.createElement('div');
                 productElement.classList.add('product-card');
-                
                 productElement.innerHTML = `
                     <img src="${product.image}" alt="${product.title}" class="product-image">
                     <div class="product-info">
@@ -146,109 +79,64 @@
                         <button class="add-to-cart" data-id="${product.id}">Add to Cart</button>
                     </div>
                 `;
-                
                 productsContainer.appendChild(productElement);
             });
         }
         
-        // Set up event listeners
         function setupEventListeners() {
-            // Add to cart buttons
             document.addEventListener('click', function(e) {
                 if (e.target.classList.contains('add-to-cart')) {
-                    const productId = parseInt(e.target.getAttribute('data-id'));
-                    addToCart(productId);
+                    addToCart(parseInt(e.target.getAttribute('data-id')));
                 }
-                
                 if (e.target.classList.contains('remove-item')) {
-                    const productId = parseInt(e.target.getAttribute('data-id'));
-                    removeFromCart(productId);
+                    removeFromCart(parseInt(e.target.getAttribute('data-id')));
                 }
             });
-            
-            // Cart icon click
             cartIcon.addEventListener('click', function() {
                 cartModal.classList.add('open');
             });
-            
-            // Close cart
             closeCart.addEventListener('click', function() {
                 cartModal.classList.remove('open');
             });
         }
         
-        // Add item to cart
         function addToCart(productId) {
             const product = products.find(p => p.id === productId);
-            
             if (product) {
                 const existingItem = cart.find(item => item.id === productId);
-                
                 if (existingItem) {
                     existingItem.quantity += 1;
                 } else {
-                    cart.push({
-                        ...product,
-                        quantity: 1
-                    });
+                    cart.push({ ...product, quantity: 1 });
                 }
-                
                 updateCart();
-                
-                // Show added to cart animation
-                const btn = document.querySelector(`.add-to-cart[data-id="${productId}"]`);
-                btn.textContent = 'Added ✓';
-                setTimeout(() => {
-                    btn.textContent = 'Add to Cart';
-                }, 1500);
             }
         }
         
-        // Remove item from cart
         function removeFromCart(productId) {
-            const itemIndex = cart.findIndex(item => item.id === productId);
-            
-            if (itemIndex !== -1) {
-                cart.splice(itemIndex, 1);
-                updateCart();
-            }
+            cart = cart.filter(item => item.id !== productId);
+            updateCart();
         }
         
-        // Update cart UI
         function updateCart() {
-            // Update cart count
-            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
-            cartCount.textContent = totalItems;
-            
-            // Update cart items
-            cartItemsContainer.innerHTML = '';
-            
-            if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<p style="text-align: center; color: #878787;">Your cart is empty</p>';
-            } else {
-                cart.forEach(item => {
-                    const cartItemElement = document.createElement('div');
-                    cartItemElement.classList.add('cart-item');
-                    
-                    cartItemElement.innerHTML = `
-                        <img src="${item.image}" alt="${item.title}" class="cart-item-image">
-                        <div class="cart-item-details">
-                            <h4 class="cart-item-title">${item.title}</h4>
-                            <p class="cart-item-price">₹${(item.price * item.quantity).toFixed(2)} (₹${item.price.toFixed(2)} × ${item.quantity})</p>
-                            <button class="remove-item" data-id="${item.id}">Remove</button>
-                        </div>
-                    `;
-                    
-                    cartItemsContainer.appendChild(cartItemElement);
-                });
-            }
-            
-            // Update total
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            cartTotal.textContent = total.toFixed(2);
+            cartCount.textContent = cart.reduce((total, item) => total + item.quantity, 0);
+            cartItemsContainer.innerHTML = cart.length === 0 ? '<p style="text-align: center; color: #878787;">Your cart is empty</p>' : '';
+            cart.forEach(item => {
+                const cartItemElement = document.createElement('div');
+                cartItemElement.classList.add('cart-item');
+                cartItemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.title}" class="cart-item-image">
+                    <div class="cart-item-details">
+                        <h4 class="cart-item-title">${item.title}</h4>
+                        <p class="cart-item-price">₹${(item.price * item.quantity).toFixed(2)} (₹${item.price.toFixed(2)} × ${item.quantity})</p>
+                        <button class="remove-item" data-id="${item.id}">Remove</button>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(cartItemElement);
+            });
+            cartTotal.textContent = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
         }
         
-        // Initialize the app
         init();
     </script>
 </body>
