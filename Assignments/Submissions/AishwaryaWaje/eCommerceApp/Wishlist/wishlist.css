@@ -1,4 +1,3 @@
-/* General Styles */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -14,7 +13,6 @@ body {
   padding: 15px;
 }
 
-/* Navbar buttons */
 .navbar-left {
   display: flex;
 }
@@ -24,7 +22,6 @@ body {
   gap: 10px;
 }
 
-/* Style buttons */
 .navbar button {
   background: white;
   border: none;

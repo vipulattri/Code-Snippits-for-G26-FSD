@@ -5,7 +5,6 @@ body {
   background-color: #f8f8f8;
 }
 
-/* Navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -32,12 +31,10 @@ body {
   border-radius: 5px;
 }
 
-/* Align home button to the left */
 #homeButton {
   margin-left: 10px;
 }
 
-/* Product Container */
 .product-container {
   display: flex;
   flex-wrap: wrap;
@@ -45,7 +42,6 @@ body {
   padding: 20px;
 }
 
-/* Product Card */
 .product-card {
   width: 250px;
   border: 1px solid #ddd;
