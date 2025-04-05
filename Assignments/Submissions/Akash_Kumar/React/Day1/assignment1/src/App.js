@@ -1,3 +1,10 @@
+// 1. User Card
+// Build a component that shows
+//     User name
+//     Profile picture
+//     About me
+//     Contact info
+
 import logo from './logo.svg';
 import './App.css';
 
