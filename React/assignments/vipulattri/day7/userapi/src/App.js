@@ -1,63 +1,109 @@
-import { useEffect, useState } from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-function App() {
-  const [counter, setCounter] = useState(1);
-  const [user, setUser] = useState(null);
-
-  function onchange() {
-    setCounter(prev => Number(prev) + 1);
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      counter: 1,
+      user: null,
+    };
+    console.log('constructor() - Component is being constructed');
   }
 
-  function decre() {
-    if (counter > 1) setCounter(prev => Number(prev) - 1);
+  componentDidMount() {
+    console.log('componentDidMount() Component mounted');
+    this.fetchUser(this.state.counter);
   }
 
-  useEffect(() => {
-    fetch(`https://reqres.in/api/users/${counter}`)
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.counter !== this.state.counter) {
+      console.log('componentDidUpdate() Counter componeont updated:', this.state.counter);
+      this.fetchUser(this.state.counter);
+    }
+  }
+
+  componentWillUnmount() {
+    console.log('componentWillUnmount() - Component will unmount, cleanup if needed');
+  }
+
+  fetchUser = (id) => {
+    fetch(`https://reqres.in/api/users/${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.data) {
-          setUser(data.data);
+          this.setState({ user: data.data });
         } else {
-          setUser(null);
+          this.setState({ user: null });
         }
       });
-  }, [counter]);
+  };
 
-  return (
-    <div className="container mt-5 text-center">
-      <h1 className="mb-4 text-primary">User Api assignment</h1>
+  handleIncrease = () => {
+    this.setState((prevState) => ({ counter: Number(prevState.counter) + 1 }));
+  };
 
-      <input
-        type="number"
-        className="form-control mb-3 w-50 mx-auto shadow-sm border-primary"
-        value={counter}
-        onChange={(e) => {
-          setCounter(e.target.value);
-        }}
-        placeholder="Enter user ID"
-      />
+  handleDecrease = () => {
+    this.setState((prevState) => {
+      if (prevState.counter > 1) {
+        return { counter: Number(prevState.counter) - 1 };
+      }
+      return null;
+    });
+  };
 
-      <div className="d-flex justify-content-center gap-3 mb-4">
-        <button className="btn btn-success shadow-sm" onClick={onchange}>Increase</button>
-        <button className="btn btn-danger shadow-sm" onClick={decre}>Decrease</button>
-      </div>
+  handleInputChange = (e) => {
+    this.setState({ counter: e.target.value });
+  };
 
-      {user ? (
-        <div className="card mx-auto p-4 shadow-lg" style={{ maxWidth: '400px' }}>
-          <img src={user.avatar} className="card-img-top rounded-circle border border-primary p-1" alt="User Avatar" />
-          <div className="card-body">
-            <h5 className="card-title text-info">{user.first_name} {user.last_name}</h5>
-            <p className="card-text">📧 <strong>{user.email}</strong></p>
-          </div>
+  render() {
+    console.log('render() Component rendered');
+    const { counter, user } = this.state;
+
+    return (
+      <div className="container mt-5 text-center">
+        <h1 className="mb-4 text-primary">User Api Assignment</h1>
+
+        <input
+          type="number"
+          className="form-control mb-3 w-50 mx-auto shadow-sm border-primary"
+          value={counter}
+          onChange={this.handleInputChange}
+          placeholder="Enter user ID"
+        />
+
+        <div className="d-flex justify-content-center gap-3 mb-4">
+          <button className="btn btn-success shadow-sm" onClick={this.handleIncrease}>
+            Increase
+          </button>
+          <button className="btn btn-danger shadow-sm" onClick={this.handleDecrease}>
+            Decrease
+          </button>
         </div>
-      ) : (
-        <p className="text-danger">No user found</p>
-      )}
-    </div>
-  );
+
+        {user ? (
+          <div className="card mx-auto p-4 shadow-lg" style={{ maxWidth: '400px' }}>
+            <img
+              src={user.avatar}
+              className="card-img-top rounded-circle border border-primary p-1"
+              alt="User Avatar"
+            />
+            <div className="card-body">
+              <h5 className="card-title text-info">
+                {user.first_name} {user.last_name}
+              </h5>
+              <p className="card-text">
+                📧 <strong>{user.email}</strong>
+              </p>
+            </div>
+          </div>
+        ) : (
+          <p className="text-danger">No user found</p>
+        )}
+      </div>
+    );
+  }
 }
 
 export default App;
