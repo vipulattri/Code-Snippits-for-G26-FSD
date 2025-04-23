@@ -1,2 +1,3 @@
 # Day 1 of making the bewakoof.com clone
 ![Day 1](screenshots/day1.png)
+![Day 1](screenshots/scrnshot2.png)
