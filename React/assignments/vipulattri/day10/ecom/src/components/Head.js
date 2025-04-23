@@ -1,4 +1,5 @@
 import React from 'react'
+import { CiMobile1 } from "react-icons/ci";
 import './Head.css'
 const Head = () => {
   return (
@@ -6,7 +7,7 @@ const Head = () => {
         <div className='sep'>
     <h5>Offers</h5>
     <h5>Fanbook</h5>
-    <h5>Download</h5>
+    <h5><CiMobile1/> Download</h5>
     <h5>Find a store near me</h5>
     </div>
      <div className='sep2'>
