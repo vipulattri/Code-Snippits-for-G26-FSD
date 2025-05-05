@@ -2,4 +2,4 @@
 
 <h5>Screenshots</h5>
 
-![Alt text](./public/screenshots/dog2.png)
+![Alt text](Screenshot 2025-05-05 135256.png)
