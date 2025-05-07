@@ -28,7 +28,7 @@ function Navbar() {
         <input type="text" placeholder="Search..." />
         <span>
           <button
-            onClick={() => alert('Just explore..No need to login😅')}
+            onClick={() => alert('You have already signed-in')}
             style={{ border: 'none', background: 'none', cursor: 'pointer' }}
           >
             <i className="fa-solid fa-user"></i>
