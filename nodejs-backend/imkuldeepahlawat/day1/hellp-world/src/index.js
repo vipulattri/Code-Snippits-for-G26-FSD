@@ -1,12 +1,13 @@
 
 import express from 'express'
-
+import  loginRoute from './routes/login.js'
 const app = express()
 
 const PORT = 3001
 
 
 // localhost:3001/
+app.use(express.json())
 app.get("/", (req, res) => {
     res.write(`<h1>Hello</h1>`);
     res.end();
@@ -32,7 +33,7 @@ app.delete("/delete", (req, res) => {
     res.write(`<h1>Hello from Delete </h1>`);
     res.end();
 });
-  
+app.use('/login',loginRoute)
 
 
 
