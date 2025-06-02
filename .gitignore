@@ -61,6 +61,7 @@ out/
 # Gatsby
 .cache/
 
+
 # Docusaurus
 .docusaurus/
 
