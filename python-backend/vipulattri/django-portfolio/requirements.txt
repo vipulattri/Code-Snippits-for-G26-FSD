@@ -14,6 +14,11 @@ yarn.lock
 .env.test
 .env.production
 
+
+#guvicon
+gunicorn==21.2.0
+
+
 # Build outputs
 dist/
 build/
