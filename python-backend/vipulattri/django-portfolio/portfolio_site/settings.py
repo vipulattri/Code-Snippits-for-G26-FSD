@@ -8,9 +8,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-dev-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['*']  # For testing; in production, use ['yourapp.onrender.com']
+# Allow all hosts during testing; restrict in production
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
@@ -25,7 +26,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Must come after SecurityMiddleware
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # for static file serving on Render
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -54,12 +55,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'portfolio_site.wsgi.application'
 
-# Database (Render PostgreSQL if DATABASE_URL is set, else fallback to SQLite)
+# Database settings — PostgreSQL on Render, SQLite locally
 DATABASES = {
     'default': dj_database_url.config(
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
         conn_max_age=600,
-        ssl_require=True
+        ssl_require=os.getenv('RENDER', False)
     )
 }
 
@@ -85,14 +86,18 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static and Media files
+# Static files (CSS, JavaScript, etc.)
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Used on Render
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # Used locally
+
+# Enable WhiteNoise for static files on Render
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# Media files (for uploaded images, etc.)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+    
