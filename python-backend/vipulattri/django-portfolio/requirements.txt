@@ -16,7 +16,8 @@ yarn.lock
 
 
 #guvicon
-gunicorn==21.2.0
+gunicorn==23.0.0
+
 
 
 # Build outputs
